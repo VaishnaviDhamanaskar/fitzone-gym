@@ -1,0 +1,13 @@
+import { useState } from 'react';
+import { Link, NavLink, Outlet } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faBars, faDumbbell, faXmark } from '@fortawesome/free-solid-svg-icons';
+
+const links = [['Home', '/'], ['About', '/about'], ['Programs', '/programs'], ['Trainers', '/trainers'], ['Membership', '/membership'], ['Timetable', '/timetable'], ['Gallery', '/gallery'], ['Contact', '/contact']];
+export function SiteLayout() {
+  const [open, setOpen] = useState(false);
+  return <><header className="site-header"><div className="nav-wrap"><Link to="/" className="brand" onClick={() => setOpen(false)}><span className="brand-mark"><FontAwesomeIcon icon={faDumbbell} /></span><span>FITZONE<small>FITNESS STUDIO</small></span></Link><button className="menu-toggle" aria-label={open ? 'Close navigation' : 'Open navigation'} aria-expanded={open} onClick={() => setOpen(!open)}><FontAwesomeIcon icon={open ? faXmark : faBars} /></button><nav className={open ? 'nav-links open' : 'nav-links'} aria-label="Main navigation">{links.map(([label, path]) => <NavLink key={path} to={path} end={path === '/'} onClick={() => setOpen(false)}>{label}</NavLink>)}<NavLink className="nav-login" to="/login" onClick={() => setOpen(false)}>Login</NavLink><Link className="button button-primary nav-cta" to="/booking" onClick={() => setOpen(false)}>Book a free trial</Link></nav></div></header><main><Outlet /></main><SiteFooter /></>;
+}
+export function SiteFooter() {
+  return <footer className="site-footer"><div className="footer-grid"><div className="footer-brand"><Link to="/" className="brand"><span className="brand-mark"><FontAwesomeIcon icon={faDumbbell} /></span><span>FITZONE<small>FITNESS STUDIO</small></span></Link><p>Training with purpose. Progress that lasts. Your next chapter starts on the floor.</p><a className="footer-whatsapp" href="https://wa.me/15550102020" target="_blank" rel="noreferrer">WhatsApp our team <span>↗</span></a></div><div><h3>Explore</h3>{links.slice(1, 6).map(([label, path]) => <Link key={path} to={path}>{label}</Link>)}</div><div><h3>Visit us</h3><p>48 Foundry Lane<br />Northbridge, NY 10001</p><p>Mon–Fri 5:30am–10pm<br />Sat–Sun 7am–7pm</p><a href="mailto:hello@fitzone.demo">hello@fitzone.demo</a><a href="tel:+15550102020">+1 (555) 010-2020</a></div><div><h3>Stay in the loop</h3><p>Good training, good people, no noise.</p><Link className="footer-cta" to="/booking">Claim your free session →</Link></div></div><div className="footer-bottom"><span>© {new Date().getFullYear()} FitZone Fitness Studio. Fictional demo project.</span><span><Link to="/privacy">Privacy</Link><Link to="/terms">Terms</Link></span></div></footer>;
+}
